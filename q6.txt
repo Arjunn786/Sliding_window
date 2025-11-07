@@ -1,0 +1,53 @@
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.*;
+
+class Main {
+    public static void main(String args[]) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        
+        int n = Integer.parseInt(br.readLine());
+        
+        String[] arrStr = br.readLine().split(" ");
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = Integer.parseInt(arrStr[i]);
+        }
+        
+        System.out.println(countEvenSumSubarrays(arr, n));
+    }
+    
+    public static long countEvenSumSubarrays(int[] arr, int n) {
+        // Count of odd numbers seen so far
+        int oddCount = 0;
+        
+        // Map to store frequency of each odd count
+        // Key: odd count, Value: frequency
+        HashMap<Integer, Integer> map = new HashMap<>();
+        
+        // Initialize with 0 odd count (for subarrays starting from index 0)
+        map.put(0, 1);
+        
+        long result = 0;
+        
+        for (int i = 0; i < n; i++) {
+            // If current element is odd, increment odd count
+            if (arr[i] % 2 != 0) {
+                oddCount++;
+            }
+            
+            // If we've seen this odd count before, 
+            // all those positions can form even-sum subarrays with current position
+            if (map.containsKey(oddCount)) {
+                result += map.get(oddCount);
+            }
+            
+            // Update frequency of current odd count
+            map.put(oddCount, map.getOrDefault(oddCount, 0) + 1);
+        }
+        
+        return result;
+    }
+}
+

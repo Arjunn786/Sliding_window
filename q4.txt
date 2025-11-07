@@ -1,0 +1,49 @@
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.*;
+class Main {
+    public static void main(String args[]) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        
+        int t = Integer.parseInt(br.readLine());
+        
+        for (int i = 0; i < t; i++) {
+            String[] firstLine = br.readLine().split(" ");
+            int n = Integer.parseInt(firstLine[0]);
+            long m = Long.parseLong(firstLine[1]);
+            
+            String[] arrStr = br.readLine().split(" ");
+            int[] arr = new int[n];
+            for (int j = 0; j < n; j++) {
+                arr[j] = Integer.parseInt(arrStr[j]);
+            }
+            
+            System.out.println(countSubarrays(arr, n, m));
+        }
+    }
+    
+    public static long countSubarrays(int[] arr, int n, long m) {
+        long count = 0;
+        long sum = 0;
+        int left = 0;
+        
+        for (int right = 0; right < n; right++) {
+            // Add current element to the window
+            sum += arr[right];
+            
+            // Shrink window from left while sum >= m
+            while (sum >= m && left <= right) {
+                sum -= arr[left];
+                left++;
+            }
+            
+            // All subarrays from left to right have sum < m
+            // Count of subarrays ending at right: (right - left + 1)
+            count += (right - left + 1);
+        }
+        
+        return count;
+    }
+}
+

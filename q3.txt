@@ -1,0 +1,46 @@
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.*;
+class Main {
+    public static void main(String args[]) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        
+        int t = Integer.parseInt(br.readLine());
+        
+        for (int i = 0; i < t; i++) {
+            String[] firstLine = br.readLine().split(" ");
+            int n = Integer.parseInt(firstLine[0]);
+            int k = Integer.parseInt(firstLine[1]);
+            
+            String[] incomeStr = br.readLine().split(" ");
+            int[] income = new int[n];
+            for (int j = 0; j < n; j++) {
+                income[j] = Integer.parseInt(incomeStr[j]);
+            }
+            
+            System.out.println(maxFamilies(income, n, k));
+        }
+    }
+    
+    public static int maxFamilies(int[] income, int n, int k) {
+        // Sort the income array
+        Arrays.sort(income);
+        
+        int maxFamilies = 1;
+        int left = 0;
+        
+        // Use sliding window approach
+        for (int right = 0; right < n; right++) {
+            // Shrink window from left while difference exceeds k
+            while (income[right] - income[left] > k) {
+                left++;
+            }
+            
+            // Update maximum window size
+            maxFamilies = Math.max(maxFamilies, right - left + 1);
+        }
+        
+        return maxFamilies;
+    }
+}

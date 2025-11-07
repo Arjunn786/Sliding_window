@@ -1,0 +1,54 @@
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.*;
+class Main {
+    public static void main(String args[]) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        
+        int t = Integer.parseInt(br.readLine());
+        
+        for (int i = 0; i < t; i++) {
+            String[] firstLine = br.readLine().split(" ");
+            int n = Integer.parseInt(firstLine[0]);
+            long k = Long.parseLong(firstLine[1]);
+            
+            String[] arrStr = br.readLine().split(" ");
+            long[] arr = new long[n];
+            for (int j = 0; j < n; j++) {
+                arr[j] = Long.parseLong(arrStr[j]);
+            }
+            
+            if (hasSubarrayWithSum(arr, n, k)) {
+                System.out.println("Yes");
+            } else {
+                System.out.println("No");
+            }
+        }
+    }
+    
+    public static boolean hasSubarrayWithSum(long[] arr, int n, long k) {
+        // HashMap to store prefix sums
+        HashMap<Long, Integer> prefixSumMap = new HashMap<>();
+        
+        // Initialize with 0 sum at index -1 (for subarrays starting from index 0)
+        prefixSumMap.put(0L, 1);
+        
+        long currentSum = 0;
+        
+        for (int i = 0; i < n; i++) {
+            currentSum += arr[i];
+            
+            // Check if (currentSum - k) exists in map
+            // This means there's a subarray ending at i with sum k
+            if (prefixSumMap.containsKey(currentSum - k)) {
+                return true;
+            }
+            
+            // Add current sum to map
+            prefixSumMap.put(currentSum, 1);
+        }
+        
+        return false;
+    }
+}

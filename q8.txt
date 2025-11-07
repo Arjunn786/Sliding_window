@@ -1,0 +1,38 @@
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.*;
+
+class Main {
+    public static void main(String args[]) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        
+        int t = Integer.parseInt(br.readLine());
+        
+        for (int i = 0; i < t; i++) {
+            String encrypted = br.readLine();
+            System.out.println(decryptString(encrypted));
+        }
+    }
+    
+    public static String decryptString(String s) {
+        StringBuilder result = new StringBuilder();
+        
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+            
+            if (ch == '#') {
+                // Backspace: remove last character if exists
+                if (result.length() > 0) {
+                    result.deleteCharAt(result.length() - 1);
+                }
+                // If result is empty, backspace has no effect
+            } else {
+                // Regular character: append to result
+                result.append(ch);
+            }
+        }
+        
+        return result.toString();
+    }
+}

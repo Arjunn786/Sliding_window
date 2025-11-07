@@ -1,0 +1,44 @@
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.*;
+class Main {
+    public static void main(String args[]) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        
+        int t = Integer.parseInt(br.readLine());
+        
+        for (int i = 0; i < t; i++) {
+            String[] firstLine = br.readLine().split(" ");
+            int n = Integer.parseInt(firstLine[0]);
+            int k = Integer.parseInt(firstLine[1]);
+            
+            String[] arrStr = br.readLine().split(" ");
+            int[] arr = new int[n];
+            for (int j = 0; j < n; j++) {
+                arr[j] = Integer.parseInt(arrStr[j]);
+            }
+            
+            System.out.println(minSumKConsecutive(arr, n, k));
+        }
+    }
+    
+    public static long minSumKConsecutive(int[] arr, int n, int k) {
+        // Calculate sum of first k elements
+        long windowSum = 0;
+        for (int i = 0; i < k; i++) {
+            windowSum += arr[i];
+        }
+        
+        long minSum = windowSum;
+        
+        // Slide the window from index k to n-1
+        for (int i = k; i < n; i++) {
+            // Remove leftmost element of previous window and add new element
+            windowSum += arr[i] - arr[i - k];
+            minSum = Math.min(minSum, windowSum);
+        }
+        
+        return minSum;
+    }
+}

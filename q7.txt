@@ -1,0 +1,32 @@
+class Solution {
+    public static String remainingMinions(int n, String s) {
+        Stack<Character> stack = new Stack<>();
+        
+        for (int i = 0; i < n; i++) {
+            char current = s.charAt(i);
+            
+            // If stack is not empty and top element is same as current
+            // They kill each other
+            if (!stack.isEmpty() && stack.peek() == current) {
+                stack.pop();
+            } else {
+                // Otherwise, add current minion to stack
+                stack.push(current);
+            }
+        }
+        
+        // If no minions survived
+        if (stack.isEmpty()) {
+            return "-1";
+        }
+        
+        // Build the result string from stack
+        StringBuilder result = new StringBuilder();
+        for (char c : stack) {
+            result.append(c);
+        }
+        
+        return result.toString();
+    }
+}
+
